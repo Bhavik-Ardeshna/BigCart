@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+ <div class="row">
+{% for item in products %}
+    <div class="col-lg-4 col-md-6 mb-4 x">
+              <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="/media/{{ item.image }}" alt=""></a>
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <a href="{% url "app:detail" item.slug %}">{{ item.name|title }}</a>
+                  </h4>
+                  <h5>Rs. {{ item.price|floatformat:"2" }}</h5>
+                  <p class="card-text">{{ item.product_detail }}</p>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted"><a class="btn btn-success" href="{% url 'app:cart' item.slug %}">Add to Cart</a></small>
+                </div>
+              </div>
+            </div>
+{% endfor %}
+</div>
+{% endblock %}

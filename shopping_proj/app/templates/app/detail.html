@@ -1,0 +1,43 @@
+{% extends 'app/base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+    <div class="row x">
+        <div class="col-md-8 ">
+
+            <img src="/media/{{product.image}}" class="img-fluid">
+        </div>
+        <div class="col-md-4">
+            <h3 class="my-3"><strong>{{product.name|title}}</strong></h3>
+            <p>{{product.product_detail}}</p>
+            <p><strong><em>“Success is the only thing <br>to change the behavior of others” </em></strong></p>
+            <form action="{% url 'app:cart' product.slug %}">
+                <input type="submit" class="btn btn-success btn-md text-center" value="Add to cart">
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="row mb-5 x">
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <input type="submit" class="btn btn-success">
+        </form>
+    </div>
+
+    <div class="row x">
+        <h4><strong>Customers Review</strong></h4>
+        {% for review in product.review_set.all %}
+            <div class="card mb-1 w-100">
+                <div class="card-body">
+                    <h6 class="card-title">Rate:<strong> {{review.ratings}}</strong></h6>
+                    <h7 class="card-text">{{ review.review }}</h7>
+                    <p class="card-text"><strong>By: {{ review.user.username }}</strong></p>
+                </div>
+                <div class="card-footer text-muted">
+                    <small>{{ review.created|timesince }} ago</small>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
